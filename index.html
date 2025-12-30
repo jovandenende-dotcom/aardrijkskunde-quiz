@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aardrijkskunde Exam Quiz</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#f2f4f8;
+  padding:20px;
+}
+.card {
+  background:white;
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+  border-radius:12px;
+}
+input {
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  margin-top:10px;
+}
+button {
+  padding:12px;
+  font-size:16px;
+  margin-top:10px;
+  width:100%;
+}
+.correct { color:green; }
+.wrong { color:red; }
+.score {
+  margin-top:15px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2 id="question"></h2>
+  <input id="answer" placeholder="Type exact answer (exam mode)">
+  <button onclick="checkAnswer()">Check answer</button>
+  <button onclick="nextQuestion()">Next question</button>
+  <p id="feedback"></p>
+  <p class="score" id="score"></p>
+</div>
+
+<script>
+const cards = [
+  // HOOFDSTUK 1
+  {word:"Aardbeving",def:"Trilling van de aarde door het plotseling verschuiven van stukken aardkorst of mantel."},
+  {word:"Aardkorst",def:"De stijve, harde buitenkant van de aarde."},
+  {word:"Actualiteitsprincipe",def:"Het principe dat natuurwetten in heden en verleden hetzelfde zijn."},
+  {word:"Asthenosfeer",def:"Taai-vloeibare laag van de bovenmantel onder de lithosfeer."},
+  {word:"Basalt",def:"Stollingsgesteente door snelle afkoeling van lava."},
+  {word:"Continentale korst",def:"Het deel van de aardkorst waar de continenten uit bestaan."},
+  {word:"Convectiestromen",def:"Bewegingen in de mantel door temperatuurverschillen."},
+  {word:"Divergente plaatgrens",def:"Plaatgrens waar aardplaten uit elkaar bewegen."},
+  {word:"Lithosfeer",def:"Vaste buitenlaag van aarde: korst en bovenmantel."},
+  {word:"Mantel",def:"Laag van de aarde tussen korst en kern."},
+
+  // HOOFDSTUK 2
+  {word:"Aanslibbingskust",def:"Kust waar afzetting van materiaal overheerst."},
+  {word:"Aardverschuiving",def:"Plotseling naar beneden bewegen van grond of gesteente."},
+  {word:"Atmosfeer",def:"Gaslaag rondom de aarde."},
+  {word:"Benedenloop",def:"Rivierdeel met klein verval en veel sedimentatie."},
+  {word:"Biosfeer",def:"Al het leven op aarde."},
+  {word:"Bovenloop",def:"Rivierdeel met groot verval en snelle stroming."},
+  {word:"Chemische verwering",def:"Verwering waarbij samenstelling van gesteente verandert."},
+  {word:"Delta",def:"Landvorm bij riviermonding door sedimentafzetting."},
+  {word:"Erosie",def:"Het afslijten en meenemen van materiaal."},
+  {word:"Exogene krachten",def:"Krachten van buitenaf zoals water, wind en ijs."},
+  {word:"Gebergtevorming",def:"Ontstaan van gebergten door plaatbewegingen."},
+  {word:"Hydrosfeer",def:"Al het water op aarde."},
+  {word:"Inwendige krachten",def:"Krachten vanuit het binnenste van de aarde."},
+  {word:"Kern",def:"Het binnenste deel van de aarde."}
+];
+
+let current, mode;
+let correct = 0;
+let total = 0;
+
+function nextQuestion(){
+  document.getElementById("answer").value="";
+  document.getElementById("feedback").textContent="";
+  current = cards[Math.floor(Math.random()*cards.length)];
+  mode = Math.random()<0.5 ? "word":"def";
+  document.getElementById("question").textContent =
+    mode==="word" ? current.word : current.def;
+}
+
+function checkAnswer(){
+  const user = document.getElementById("answer").value.trim().toLowerCase();
+  const right = mode==="word" ? current.def.toLowerCase() : current.word.toLowerCase();
+  total++;
+
+  if(user === right){
+    correct++;
+    document.getElementById("feedback").textContent="✅ Correct";
+    document.getElementById("feedback").className="correct";
+  } else {
+    document.getElementById("feedback").textContent="❌ Correct answer: "+right;
+    document.getElementById("feedback").className="wrong";
+  }
+
+  document.getElementById("score").textContent =
+    `Score: ${correct} / ${total}`;
+}
+
+nextQuestion();
+</script>
+
+</body>
+</html>
